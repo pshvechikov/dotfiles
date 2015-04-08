@@ -9,9 +9,11 @@
 #       - after this Launcher will be still available with Alt+F1 press
 #   - disable autograbbing keyboard in Virtualbox to allow switching
 #     between host machine applications with shortcuts (such as CMD+TAB)
+#     This could be done in VB Settings -> Input -> Autograbbing keyboard
 #   - adjust video memory in Virtualbox settings
 #   - share any folders in virtual machine
 #   - install Vundle plugins inside Vim
+#   -
 ############################
 
 set -e
