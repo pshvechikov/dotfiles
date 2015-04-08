@@ -6,7 +6,7 @@
 # NOTE: There are some steps that are required to be done by youself:
 #   - disable Dash on SUPER key:
 #       - unity-tweak-tool -> Unity -> Launcher -> Switcher -> Switching shortcuts
-#       - after this Launcher will be still available with Alt+F1 press
+#       - after this Launcher will be still available with Alt+F1 or CMD-s
 #   - disable autograbbing keyboard in Virtualbox to allow switching
 #     between host machine applications with shortcuts (such as CMD+TAB)
 #     This could be done in VB Settings -> Input -> Autograbbing keyboard
@@ -34,7 +34,7 @@ getent group vboxsf && (id | grep -q vboxsf || sudo usermod -aG vboxsf $USER)
 
 
 ############################ INSTALL PACKAGES #################################
-pkgs="git vim terminator tmux ipython unity-tweak-tool"
+pkgs="git vim terminator tmux ipython ipython3 unity-tweak-tool"
 sudo apt-get update
 sudo apt-get install $pkgs
 ###############################################################################
