@@ -27,10 +27,10 @@ SUDO="$USER  ALL=NOPASSWD: ALL"
 test -f $GITHUB || (echo Please provide SSH-key for github! && exit 1)
 
 # get youserlf nopasswd sudo with line on dev machine
-sudo grep -q  $USER  /etc/sudoers || echo ($SUDO | sudo tee -a /etc/sudoers)
+sudo grep -q  $USER  /etc/sudoers ||  (echo $SUDO | sudo tee -a /etc/sudoers)
 # see if we are on Virtual Box and add  user to this group
 # This hint allows using shared folders from
-getent group vboxsf && sudo usermod -aG vboxsf $USER
+getent group vboxsf && (id | grep -q vboxsf || sudo usermod -aG vboxsf $USER)
 
 
 ############################ INSTALL PACKAGES #################################
@@ -71,7 +71,7 @@ test -d $dst || git clone $src $dst
 ############################## INSTALL DOTFILES ###############################
 ########## Variables
 dir=$DOTFILESDIR
-olddir=$DOTFILESDIR_old
+olddir=${DOTFILESDIR}_old
 files="gitconfig"                 # list of all dotfiles in ~/
 files="$files vimrc"
 files="$files latexmkrc"
