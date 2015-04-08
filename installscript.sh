@@ -21,12 +21,13 @@ set -x
 
 GITHUB=~/.ssh/github
 DOTFILESDIR=~/dotfiles
+SUDO="$USER  ALL=NOPASSWD: ALL"
 
 # do not allow further execution until ssh-key is present
 test -f $GITHUB || (echo Please provide SSH-key for github! && exit 1)
 
 # get youserlf nopasswd sudo with line on dev machine
-sudo $USER  ALL=NOPASSWD: ALL >> /etc/sudoers
+sudo grep -q  $USER  /etc/sudoers || echo ($SUDO | sudo tee -a /etc/sudoers)
 # see if we are on Virtual Box and add  user to this group
 # This hint allows using shared folders from
 getent group vboxsf && sudo usermod -aG vboxsf $USER
@@ -63,7 +64,7 @@ fc-cache -f -v
 ############################  CLONE DOT FILES  ################################
 src=git@github.com:bestxolodec/dotfiles.git
 dst=$DOTFILESDIR
-test -d $dst | git clone $src $dst
+test -d $dst || git clone $src $dst
 ###############################################################################
 
 
