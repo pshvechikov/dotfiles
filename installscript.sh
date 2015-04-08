@@ -76,6 +76,7 @@ files="gitconfig"                 # list of all dotfiles in ~/
 files="$files vimrc"
 files="$files latexmkrc"
 files="$files inputrc"
+files="$files bashrc"
 
 ##########
 

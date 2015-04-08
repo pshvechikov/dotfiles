@@ -81,6 +81,8 @@ if [ -x /usr/bin/dircolors ]; then
     #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
+    alias gerp='grep --color=auto'
+    alias grpe='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
@@ -89,6 +91,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias fix='git pull && git add -A ./ && git commit -m "Tiny fixes" && git pull'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
