@@ -250,8 +250,6 @@ else
     set spelllang=ru_ru,en_us
     " get suggestions on spelling
     set complete+=kspell
-    " check spell by default
-    set spell
 
     " <Ctrl-l> redraws the screen and removes any search highlighting.
     nnoremap <silent> <C-l> :nohl<CR><C-l>
