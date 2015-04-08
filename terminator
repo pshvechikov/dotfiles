@@ -1,0 +1,63 @@
+[global_config]
+  window_state = maximise
+  enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
+  borderless = True
+  focus = system
+  title_hide_sizetext = True
+  title_transmit_bg_color = "#d30102"
+  hide_from_taskbar = True
+[keybindings]
+  toggle_zoom = <Shift><Super>Return
+  group_tab = <Primary><Shift><Super>t
+  next_tab = <Super>Right
+  split_horiz = <Shift><Super>d
+  prev_tab = <Super>Left
+  close_term = <Primary><Shift>w
+  split_vert = <Super>d
+  new_tab = <Super>t
+  copy = <Super>c
+  paste = <Super>v
+[profiles]
+  [[default]]
+    scrollbar_position = hidden
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#92a12a:#bf9103:#5887a8:#6c71c4:#93a1a1:#fdf6e3"
+    font = Source Code Pro Medium 10
+    background_image = None
+    background_darkness = 0.95
+    use_system_font = False
+    cursor_color = "#efead9"
+    foreground_color = "#93a1a1"
+    scroll_on_output = False
+    show_titlebar = False
+    copy_on_selection = True
+    background_color = "#002b36"
+    scrollback_infinite = True
+  [[solarized-dark]]
+    scrollbar_position = hidden
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    font = Liberation Mono 11
+    background_image = None
+    background_darkness = 0.95
+    use_system_font = False
+    cursor_color = "#eee8d5"
+    foreground_color = "#eee8d5"
+    copy_on_selection = True
+    background_color = "#002b36"
+    scrollback_infinite = True
+  [[solarized-light]]
+    scrollbar_position = hidden
+    background_image = None
+    palette = "#073642:#dc322f:#859900:#b58900:#268bd2:#d33682:#2aa198:#eee8d5:#002b36:#cb4b16:#586e75:#657b83:#839496:#6c71c4:#93a1a1:#fdf6e3"
+    cursor_color = "#002b36"
+    foreground_color = "#002b36"
+    background_color = "#eee8d5"
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+    [[[window0]]]
+      type = Window
+      parent = ""
+[plugins]
