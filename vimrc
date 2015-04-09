@@ -18,8 +18,8 @@ else
 
     "---------=== Code/project navigation ===-------------
     Plugin 'scrooloose/nerdtree'            " Project and file navigation
-    Plugin 'majutsushi/tagbar'              " Class/module browser
-    Plugin 'vim-scripts/taglist.vim'        " List all functoins and other definitions
+    Plugin 'majutsushi/tagbar'              " Class/module browser (tags in memory)
+    " Plugin 'xolox/vim-easytags'           " If needed to store tags in files
 
 
     "------------------=== Other ===----------------------
@@ -34,10 +34,8 @@ else
 
 
     "--------------=== Completion ===---------------
-    " Plugin 'Shougo/neocomplete'       " completion
     Plugin 'Valloric/YouCompleteMe'     " completion
-    Plugin 'shvechikov/vim-keymap-russian-jcukenmac' " alternative keymap for mac
-    " Plugin 'ervandew/supertab'          " man c-n to tab for compatibility YCM with UltiSnips
+    Plugin 'ervandew/supertab'          " man c-n to tab for compatibility YCM with UltiSnips
 
     "------------------=== Latex ===---------------------
     Plugin 'lervag/vim-latex'       " latex module
@@ -49,11 +47,11 @@ else
 
     "---------------=== Languages support ===-------------
     " --- Python ---
-    " Plugin 'klen/python-mode'           " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
-    " Plugin 'mitsuhiko/vim-jinja'      " Jinja support for vim
-    " Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
+    Plugin 'klen/python-mode'               " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
+    Plugin 'mitsuhiko/vim-jinja'            " Jinja support for vim
+    Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 
-    call vundle#end()                   " required
+     call vundle#end()                   " required
 
 
 
@@ -120,6 +118,8 @@ else
     " aunmenu Window.
     let no_buffers_menu=1
     set mousemodel=popup
+    " do not copy line numbers when select by hand  even in terminal
+    set mouse+=a
 
     set ruler
     set completeopt-=preview
@@ -172,25 +172,17 @@ else
     set tabstop=4
     set shiftwidth=4
     set expandtab
-    set showmatch       " set show matching parenthesis
+    set showmatch     " set show matching parenthesis
     set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
     set autoindent    " always set autoindenting on
     set copyindent    " copy the previous indentation on autoindenting
 
     set history=1000         " remember more commands and search history
-    set undolevels=1000      " use many muchos levels of undo
+    set undolevels=1000      " use many levels of undo
     set wildignore=*.swp,*.bak,*.pyc,*.class
     set title                " change the terminal's title
     set visualbell           " don't beep
     set noerrorbells         " don't beep
-
-   " disable colorcolumn that is set up nowhere ??
-    highlight ColorColumn ctermbg=DarkGray
-    " all spaces at the end of lines highlight with DarkGray color
-    highlight WhitespaceEOL ctermbg=8 guibg=#073642
-    match WhitespaceEOL /\s\+$/
-    " delete all spaces at the end of lines
-    autocmd BufWritePre * :%s/\s\+$//e
 
 
     "----------=========  Folding ==========------------
@@ -219,6 +211,25 @@ else
     " set foldlevel=1         "this is just what i use
     " toggle fold with space rather then inconvenient za
     nnoremap <space> za
+
+
+
+    "----------=========  MISC ==========------------
+    "
+    " command to make diff with saved version of edited file
+    if !exists(":DiffOrig")
+        command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+                    \ | wincmd p | diffthis
+    endif
+   " disable colorcolumn that is set up nowhere ??
+    highlight ColorColumn ctermbg=DarkGray
+    " all spaces at the end of lines highlight with DarkGray color
+    highlight WhitespaceEOL ctermbg=8 guibg=#073642
+    match WhitespaceEOL /\s\+$/
+    " delete all spaces at the end of lines
+    autocmd BufWritePre * :%s/\s\+$//e
+
+
 
     " highlight text on dark when exceeding 80 column
     augroup vimrc_autocmds
@@ -271,6 +282,9 @@ else
     "
     "
 
+    " FIXME: https://github.com/klen/python-mode/issues/525
+    let g:pymode_rope = 0
+    hi Folded ctermbg=Black ctermfg=6 cterm=bold
 
 
 endif

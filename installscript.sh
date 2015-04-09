@@ -34,7 +34,7 @@ getent group vboxsf && (id | grep -q vboxsf || sudo usermod -aG vboxsf $USER)
 
 
 ############################ INSTALL PACKAGES #################################
-pkgs="git vim terminator tmux ipython ipython3 unity-tweak-tool"
+pkgs="git vim terminator tmux ipython ipython3 unity-tweak-tool exuberant-ctags"
 sudo apt-get update
 sudo apt-get install $pkgs
 ###############################################################################
@@ -107,5 +107,12 @@ mv $dstfile $olddir/$file || true
 ln -s $dir/$file $dstfile
 #### Terminator section  ends  ####
 ###############################################################################
+
+
+
+############################  INSTALL VIM PLUGINS  ################################
+vim +PluginInstall +qall now
+###############################################################################
+
 
 
