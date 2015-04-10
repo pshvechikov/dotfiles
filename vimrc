@@ -118,8 +118,6 @@ else
     " aunmenu Window.
     let no_buffers_menu=1
     set mousemodel=popup
-    " do not copy line numbers when select by hand  even in terminal
-    set mouse+=a
 
     set ruler
     set completeopt-=preview
@@ -224,20 +222,23 @@ else
    " disable colorcolumn that is set up nowhere ??
     highlight ColorColumn ctermbg=DarkGray
     " all spaces at the end of lines highlight with DarkGray color
-    highlight WhitespaceEOL ctermbg=8 guibg=#073642
-    match WhitespaceEOL /\s\+$/
     " delete all spaces at the end of lines
     autocmd BufWritePre * :%s/\s\+$//e
-
-
 
     " highlight text on dark when exceeding 80 column
     augroup vimrc_autocmds
         autocmd!
         autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
         autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
+        autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+        autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
         autocmd FileType ruby,python,javascript,c,cpp set nowrap
     augroup END
+
+    " Once again define highlighting trailing whitespaces because autocmdis is
+    " not working when opening files in split mode
+    highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+    match WhitespaceEOL /\s\+$/
 
     " show NERDTree on F1 pressed
     map <F1> :NERDTreeToggle<CR>

@@ -93,7 +93,8 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias fix='git pull && git add -A ./ && git commit -m "Tiny fixes" && git pull'
+alias fix='git pull && git add -A ./ && git commit -m "Tiny fixes" && git push'
+alias o='gnome-open'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
