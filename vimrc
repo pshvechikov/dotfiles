@@ -18,27 +18,28 @@ else
 
     "---------=== Code/project navigation ===-------------
     Plugin 'scrooloose/nerdtree'            " Project and file navigation
+    Plugin 'scrooloose/nerdcommenter'       " Smart code commenter
     Plugin 'majutsushi/tagbar'              " Class/module browser (tags in memory)
     " Plugin 'xolox/vim-easytags'           " If needed to store tags in files
 
 
     "------------------=== Other ===----------------------
-    Plugin 'tpope/vim-surround'     " Parentheses, brackets, quotes, XML tags, and more
-    Plugin 'kien/ctrlp.vim'         " Convenient navigation
-    Plugin 'vim-scripts/diffchanges.vim' " difchanges in file
+    Plugin 'tpope/vim-surround'             " Parentheses, brackets, quotes, XML tags, and more
+    Plugin 'kien/ctrlp.vim'                 " Convenient navigation
+    Plugin 'vim-scripts/diffchanges.vim'    " difchanges in file
 
 
     "--------------=== Snippets support ===---------------
-    Plugin 'SirVer/ultisnips'       " Track the engine.
-    Plugin 'honza/vim-snippets'     " snippets repo
+    Plugin 'SirVer/ultisnips'               " Track the engine.
+    Plugin 'honza/vim-snippets'             " snippets repo
 
 
     "--------------=== Completion ===---------------
-    Plugin 'Valloric/YouCompleteMe'     " completion
-    Plugin 'ervandew/supertab'          " man c-n to tab for compatibility YCM with UltiSnips
+    Plugin 'Valloric/YouCompleteMe'         " completion
+    Plugin 'ervandew/supertab'              " man c-n to tab for compatibility YCM with UltiSnips
 
     "------------------=== Latex ===---------------------
-    Plugin 'lervag/vim-latex'       " latex module
+    Plugin 'lervag/vim-latex'               " latex module
 
 
     "------------------=== Colors ===---------------------
@@ -51,7 +52,7 @@ else
     Plugin 'mitsuhiko/vim-jinja'            " Jinja support for vim
     Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 
-     call vundle#end()                   " required
+     call vundle#end()                      " required
 
 
 
@@ -64,19 +65,23 @@ else
     let g:ycm_collect_identifiers_from_tags_files = 1
     " set omnifunc=syntaxcomplete#Complete
     let g:ycm_filetype_blacklist = {}
-
     " add language keywords to list of autocomplete
     let g:ycm_seed_identifiers_with_syntax = 1
     " if one want to use ctags he should assure oneself that
     " >> ctags --version print Exuberant Ctags, see :help YouCompleteMe
 
-    let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-    let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 
-    let g:UltiSnipsExpandTrigger="<Tab>"
-    let g:UltiSnipsJumpForwardTrigger="<Tab>"
-    let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+    " make YCM compatible with UltiSnips (using supertab)
+    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+    let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+    let g:SuperTabDefaultCompletionType = '<C-n>'
+
     let g:UltiSnipsSnippetsDir = "~/.vim/bundle/vim-snippets/UltiSnips"
+    " better key bindings for UltiSnipsExpandTrigger
+    let g:UltiSnipsExpandTrigger = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
 
     "====================================================
     " Latex settings
@@ -219,26 +224,29 @@ else
         command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
                     \ | wincmd p | diffthis
     endif
-   " disable colorcolumn that is set up nowhere ??
+    " disable colorcolumn that is set up nowhere ??
     highlight ColorColumn ctermbg=DarkGray
-    " all spaces at the end of lines highlight with DarkGray color
     " delete all spaces at the end of lines
-    autocmd BufWritePre * :%s/\s\+$//e
+     autocmd BufWritePre * :%s/\s\+$//e
 
-    " highlight text on dark when exceeding 80 column
-    augroup vimrc_autocmds
-        autocmd!
-        autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-        autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
-        autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
-        autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
-        autocmd FileType ruby,python,javascript,c,cpp set nowrap
-    augroup END
+     " highlight text on dark when exceeding 80 column
+     augroup vimrc_autocmds
+         autocmd!
+         autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
+         autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
+         autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+         autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
+         autocmd FileType ruby,python,javascript,c,cpp set nowrap
+     augroup END
 
-    " Once again define highlighting trailing whitespaces because autocmdis is
-    " not working when opening files in split mode
-    highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
-    match WhitespaceEOL /\s\+$/
+     " Once again define highlighting trailing whitespaces because autocmdis is
+     " not working when opening files in split mode
+     highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+     match WhitespaceEOL /\s\+$/
+
+
+
+
 
     " show NERDTree on F1 pressed
     map <F1> :NERDTreeToggle<CR>
@@ -253,10 +261,13 @@ else
     " set imsearch=0
     " highlight lCursor guifg=NONE guibg=Cyan
     " задаём проверку правописания
+
     set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ъ],фa,ыs,вd,аf,пg,рh,оj,лk,дl,э'
     set langmap+=яz,чx,сc,мv,иb,тn,ьm,ю.,ЙQ,ЦW,УE,КR,ЕT,НY,ГU,ШI,ЩO,ЗP,Х{,Ъ},ФA,ЫS
     set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
-    set langmap+=\\;*,\\,^
+    set langmap+=\\,^
+    " Please see https://github.com/SirVer/ultisnips/issues/418
+    " set langmap+=\\;*
 
 
     set spelllang=ru_ru,en_us
@@ -265,8 +276,6 @@ else
 
     " <Ctrl-l> redraws the screen and removes any search highlighting.
     nnoremap <silent> <C-c> :nohl<CR><C-c>
-
-
     " wrap long lines to the new lines
     set wrap
     " do not break words in the middle

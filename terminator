@@ -1,5 +1,5 @@
 [global_config]
-  window_state = maximise
+  window_state = fullscreen
   enabled_plugins = LaunchpadCodeURLHandler, APTURLHandler, LaunchpadBugURLHandler
   borderless = True
   focus = system
@@ -14,7 +14,9 @@
   prev_tab = <Super>Left
   close_term = <Primary><Shift>w
   split_vert = <Super>d
+  go_right = None
   new_tab = <Super>t
+  go_left = None
   copy = <Super>c
   paste = <Super>v
 [profiles]
