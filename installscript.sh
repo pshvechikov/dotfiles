@@ -110,9 +110,14 @@ ln -s $dir/$file $dstfile
 
 
 
-############################  INSTALL VIM PLUGINS  ################################
+##########################  INSTALL VIM PLUGINS ###############################
 vim +PluginInstall +qall now
 ###############################################################################
 
 
+############################  GIT COMPLETION BASH #############################
+URL=https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+# do not change place of git-completion.bash - it has links in bahrc file
+wget $URL -O ~/.git-completion.bash
+###############################################################################
 

@@ -25,6 +25,7 @@ else
 
     "------------------=== Other ===----------------------
     Plugin 'tpope/vim-surround'             " Parentheses, brackets, quotes, XML tags, and more
+    Plugin 'Raimondi/delimitMate'           " Intelligent autocomplete
     Plugin 'kien/ctrlp.vim'                 " Convenient navigation
     Plugin 'vim-scripts/diffchanges.vim'    " difchanges in file
 
