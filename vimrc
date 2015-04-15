@@ -35,15 +35,15 @@ else
     Plugin 'honza/vim-snippets'             " snippets repo
 
 
-    "--------------=== Completion ===---------------
+    ""--------------=== Completion ===---------------
     Plugin 'Valloric/YouCompleteMe'         " completion
     Plugin 'ervandew/supertab'              " man c-n to tab for compatibility YCM with UltiSnips
 
-    "------------------=== Latex ===---------------------
+    ""------------------=== Latex ===---------------------
     Plugin 'lervag/vim-latex'               " latex module
 
 
-    "------------------=== Colors ===---------------------
+    ""------------------=== Colors ===---------------------
     Plugin 'altercation/vim-colors-solarized'   " solarized colors
 
 
@@ -76,12 +76,31 @@ else
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
     let g:SuperTabDefaultCompletionType = '<C-n>'
-
-    let g:UltiSnipsSnippetsDir = "~/.vim/bundle/vim-snippets/UltiSnips"
-    " better key bindings for UltiSnipsExpandTrigger
     let g:UltiSnipsExpandTrigger = "<tab>"
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+    " where all snippets are stored
+    let g:UltiSnipsSnippetsDir = "~/.vim/bundle/vim-snippets/UltiSnips"
+    let g:ultisnips_python_style = "google"
+
+    "====================================================
+    " DelimitMate
+    "=====================================================
+    " for python dosstrings
+    au FileType python let b:delimitMate_nesting_quotes = ['"']
+    " Use this option to tell delimitMate which characters should be considered
+    " matching pairs. Read |delimitMateAutoClose| for details.
+    let delimitMate_matchpairs = "(:),[:],{:},<:>"
+
+
+    "====================================================
+    " NERDTree
+    "=====================================================
+    " show NERDTree on F1 pressed
+    map <F1> :NERDTreeToggle<CR>
+    " ignore theese extensions
+    let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
 
 
     "====================================================
@@ -98,15 +117,35 @@ else
     let g:latex_quickfix_ignore_all_warnings = 1
     " which warnings should be ignored
     let g:latex_quickfix_ignored_warnings = [ ]
-       " \ 'Underfull',
-       " \ 'Overfull',
-       " \ 'specifier changed to',
-       " \ ]
+      " \ 'Underfull',
+      " \ 'Overfull',
+      " \ 'specifier changed to',
+      " \ ]
     "  callback
     let g:latex_latexmk_callback = 1
     " set viewer and configure forward search with <leader>ls combination
     let g:latex_view_general_viewer = 'open -a Skim'
     let g:latex_view_general_viewer = '/Applications/Skim.app/Contents/MacOS/Skim'
+
+    " set switching to Russian keyboard by pressing C-^
+    " the combination is awful but it is default and we will use it
+    " set keymap=russian-jcukenmac
+    " " the option for being able to press CTRL-N or CTRL-P to complete from
+    " set iminsert=0
+    " set imsearch=0
+    " highlight lCursor guifg=NONE guibg=Cyan
+
+    augroup langmap_tex
+       autocmd!
+       autocmd FileType plaintex set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ъ],фa,ыs,вd,аf,пg,рh,оj,лk,дl,э'
+       autocmd FileType plaintex set langmap+=яz,чx,сc,мv,иb,тn,ьm,ю.,ЙQ,ЦW,УE,КR,ЕT,НY,ГU,ШI,ЩO,ЗP,Х{,Ъ},ФA,ЫS
+       autocmd FileType plaintex set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
+       autocmd FileType plaintex set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
+       autocmd FileType plaintex set langmap+=\\,^
+       autocmd FileType plaintex " Please see https://github.com/SirVer/ultisnips/issues/418
+       autocmd FileType plaintex " set langmap+=\\;*
+       autocmd FileType plaintex set spell
+    augroup END
 
 
     "====================================================
@@ -129,24 +168,24 @@ else
     set completeopt-=preview
     set gcr=a:blinkon0
     if has("gui_running")
-      set cursorline
+     set cursorline
     endif
     set ttyfast
 
 
     syntax on
     if has("gui_running")
-    " GUI? Устанавливаем  тему и размер окна
-      set background=dark
-      set lines=40 columns=125
-      let g:solarized_termcolors=256
-      colorscheme solarized
+    " GUI? SET THEME AND WINDOW SIZE
+    set background=dark
+    set lines=40 columns=125
+    let g:solarized_termcolors=256
+    colorscheme solarized
 
     if has("mac")
-      set guifont=Consolas:h16
-      set fuoptions=maxvert,maxhorz
+     set guifont=Consolas:h16
+     set fuoptions=maxvert,maxhorz
     else
-      set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 15
+     set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 15
     endif
     else
     "  colorscheme solarized
@@ -188,6 +227,9 @@ else
     set visualbell           " don't beep
     set noerrorbells         " don't beep
 
+    " set split methods
+    set splitbelow
+    set splitright
 
     "----------=========  Folding ==========------------
 
@@ -195,81 +237,58 @@ else
     nnoremap <silent> <leader>zj :call NextClosedFold('j')<cr>
     nnoremap <silent> <leader>zk :call NextClosedFold('k')<cr>
     function! NextClosedFold(dir)
-        let cmd = 'norm!z' . a:dir
-        let view = winsaveview()
-        let [l0, l, open] = [0, view.lnum, 1]
-        while l != l0 && open
-            exe cmd
-            let [l0, l] = [l, line('.')]
-            let open = foldclosed(l) < 0
-        endwhile
-        if open
-            call winrestview(view)
-        endif
+       let cmd = 'norm!z' . a:dir
+       let view = winsaveview()
+       let [l0, l, open] = [0, view.lnum, 1]
+       while l != l0 && open
+          exe cmd
+          let [l0, l] = [l, line('.')]
+          let open = foldclosed(l) < 0
+       endwhile
+       if open
+          call winrestview(view)
+       endif
     endfunction
 
-    "folding settings
+    " FOLDING SETTINGS
     " set foldmethod=indent   "fold based on indent
     " set foldnestmax=10      "deepest fold is 10 levels
     " set nofoldenable        "dont fold by default
     " set foldlevel=1         "this is just what i use
+
     " toggle fold with space rather then inconvenient za
     nnoremap <space> za
+    " fix colour of fold
+    hi Folded ctermbg=Black ctermfg=6 cterm=bold
 
 
 
     "----------=========  MISC ==========------------
-    "
+
     " command to make diff with saved version of edited file
     if !exists(":DiffOrig")
-        command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-                    \ | wincmd p | diffthis
+       command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+                   \ | wincmd p | diffthis
     endif
     " disable colorcolumn that is set up nowhere ??
     highlight ColorColumn ctermbg=DarkGray
     " delete all spaces at the end of lines
-     autocmd BufWritePre * :%s/\s\+$//e
+    autocmd BufWritePre * :%s/\s\+$//e
 
-     " highlight text on dark when exceeding 80 column
-     augroup vimrc_autocmds
-         autocmd!
-         autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-         autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
-         autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
-         autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
-         autocmd FileType ruby,python,javascript,c,cpp set nowrap
-     augroup END
+    " highlight text on dark when exceeding 80 column
+    augroup vimrc_autocmds
+       autocmd!
+       autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
+       autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
+       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+       autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
+       autocmd FileType ruby,python,javascript,c,cpp set nowrap
+    augroup END
 
-     " Once again define highlighting trailing whitespaces because autocmdis is
-     " not working when opening files in split mode
-     highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
-     match WhitespaceEOL /\s\+$/
-
-
-
-
-
-    " show NERDTree on F1 pressed
-    map <F1> :NERDTreeToggle<CR>
-    " ignore theese extensions
-    let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
-
-    " set switching to Russian keyboard by pressing C-^
-    " the combination is awful but it is default and we will use it
-    " set keymap=russian-jcukenmac
-    " " the option for being able to press CTRL-N or CTRL-P to complete from
-    " set iminsert=0
-    " set imsearch=0
-    " highlight lCursor guifg=NONE guibg=Cyan
-    " задаём проверку правописания
-
-    set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ъ],фa,ыs,вd,аf,пg,рh,оj,лk,дl,э'
-    set langmap+=яz,чx,сc,мv,иb,тn,ьm,ю.,ЙQ,ЦW,УE,КR,ЕT,НY,ГU,ШI,ЩO,ЗP,Х{,Ъ},ФA,ЫS
-    set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
-    set langmap+=\\,^
-    " Please see https://github.com/SirVer/ultisnips/issues/418
-    " set langmap+=\\;*
-
+    " Once again define highlighting trailing whitespaces because autocmdis is
+    " not working when opening files in split mode
+    highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+    match WhitespaceEOL /\s\+$/
 
     set spelllang=ru_ru,en_us
     " get suggestions on spelling
@@ -295,7 +314,6 @@ else
 
     " FIXME: https://github.com/klen/python-mode/issues/525
     let g:pymode_rope = 0
-    hi Folded ctermbg=Black ctermfg=6 cterm=bold
 
 
 endif
