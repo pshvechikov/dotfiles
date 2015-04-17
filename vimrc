@@ -75,7 +75,13 @@ else
     " make YCM compatible with UltiSnips (using supertab)
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+
+    " hack to workaround with YCM
     let g:SuperTabDefaultCompletionType = '<C-n>'
+    " hack to allow delimitMate use shift-tab to exit one level
+    " of comments
+    let g:SuperTabMappingBackward = '<c-p>'
+
     let g:UltiSnipsExpandTrigger = "<tab>"
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
     let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
@@ -102,6 +108,12 @@ else
     " ignore theese extensions
     let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
 
+    "====================================================
+    " Tagbar
+    "=====================================================
+
+    " sort always by position in file, not by name
+    let g:tagbar_sort = 0
 
     "====================================================
     " Latex settings
@@ -270,10 +282,12 @@ else
        command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
                    \ | wincmd p | diffthis
     endif
+
     " disable colorcolumn that is set up nowhere ??
     highlight ColorColumn ctermbg=DarkGray
     " delete all spaces at the end of lines
     autocmd BufWritePre * :%s/\s\+$//e
+
 
     " highlight text on dark when exceeding 80 column
     augroup vimrc_autocmds

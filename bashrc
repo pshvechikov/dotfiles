@@ -20,8 +20,11 @@ HISTSIZE=
 HISTFILESIZE=
 # mix history from all terminals at one history
 export PROMPT_COMMAND='history -a'
+# choose VIM for console and graphical editor
+export EDITOR=vim
+export VISUAL=gvim
 
-# check the window size after each command and, if necessary,
+ #check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
