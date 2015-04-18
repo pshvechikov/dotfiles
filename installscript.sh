@@ -102,10 +102,20 @@ done
 #### Terminator section starts ####
 dstfile=~/.config/terminator/config
 file="terminator"
-mkdir -p ~/.config/terminator
+mkdir -p  $(dirname $dstfile)
 mv $dstfile $olddir/$file || true
 ln -s $dir/$file $dstfile
 #### Terminator section  ends  ####
+
+
+#### Ipython config section starts ####
+dstfile=~/.ipython/profile_default/ipython_config.py
+file=ipython_config.py
+mkdir -p  $(dirname $dstfile)
+mv $dstfile $olddir/$file || true
+ln -s $dir/$file $dstfile
+#### Ipython config section ends ####
+
 ###############################################################################
 
 
