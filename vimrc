@@ -65,7 +65,10 @@ else
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
     let g:ycm_collect_identifiers_from_tags_files = 1
     " set omnifunc=syntaxcomplete#Complete
-    let g:ycm_filetype_blacklist = {}
+    " let g:ycm_filetype_blacklist = {
+    "     \ 'tex' : 1,
+    "     \ 'plaintex' : 1,
+    " 	\ }
     " add language keywords to list of autocomplete
     let g:ycm_seed_identifiers_with_syntax = 1
     " if one want to use ctags he should assure oneself that
@@ -76,6 +79,7 @@ else
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
+
     " hack to workaround with YCM
     let g:SuperTabDefaultCompletionType = '<C-n>'
     " hack to allow delimitMate use shift-tab to exit one level
@@ -84,7 +88,7 @@ else
 
     let g:UltiSnipsExpandTrigger = "<tab>"
     let g:UltiSnipsJumpForwardTrigger = "<tab>"
-    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    " let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
     " where all snippets are stored
     let g:UltiSnipsSnippetsDir = "~/.vim/bundle/vim-snippets/UltiSnips"
@@ -101,12 +105,14 @@ else
 
 
     "====================================================
-    " NERDTree
+    " NERDTree and NERDCommenter
     "=====================================================
     " show NERDTree on F1 pressed
     map <F1> :NERDTreeToggle<CR>
     " ignore theese extensions
     let NERDTreeIgnore=['\~$', '\.pyc$', '\.pyo$', '\.class$', 'pip-log\.txt$', '\.o$']
+    " to add space after commmant symbol
+    let NERDSpaceDelims=1
 
     "====================================================
     " Tagbar
@@ -149,14 +155,14 @@ else
 
     augroup langmap_tex
        autocmd!
-       autocmd FileType plaintex set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ъ],фa,ыs,вd,аf,пg,рh,оj,лk,дl,э'
-       autocmd FileType plaintex set langmap+=яz,чx,сc,мv,иb,тn,ьm,ю.,ЙQ,ЦW,УE,КR,ЕT,НY,ГU,ШI,ЩO,ЗP,Х{,Ъ},ФA,ЫS
-       autocmd FileType plaintex set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
-       autocmd FileType plaintex set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
-       autocmd FileType plaintex set langmap+=\\,^
-       autocmd FileType plaintex " Please see https://github.com/SirVer/ultisnips/issues/418
-       autocmd FileType plaintex " set langmap+=\\;*
-       autocmd FileType plaintex set spell
+       autocmd FileType tex set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ъ],фa,ыs,вd,аf,пg,рh,оj,лk,дl,э'
+       autocmd FileType tex set langmap+=яz,чx,сc,мv,иb,тn,ьm,ю.,ЙQ,ЦW,УE,КR,ЕT,НY,ГU,ШI,ЩO,ЗP,Х{,Ъ},ФA,ЫS
+       autocmd FileType tex set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
+       autocmd FileType tex set langmap+=ВD,АF,ПG,РH,ОJ,ЛK,ДL,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Ж:,Б<,Ю>,]`,[~
+       autocmd FileType tex set langmap+=\\,^
+       autocmd FileType tex " Please see https://github.com/SirVer/ultisnips/issues/418
+       autocmd FileType tex " set langmap+=\\;*
+       autocmd FileType tex set spell
     augroup END
 
 
@@ -215,6 +221,7 @@ else
     " autocmd InsertLeave * :set relativenumber
     set scrolloff=5      " 5 строк при скролле за раз
 
+    set autochdir     " change directory to edited file
     set ignorecase
     set smartcase     " case searching tunning
 
@@ -294,14 +301,14 @@ else
        autocmd!
        autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
        autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
-       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=#073642
        autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
        autocmd FileType ruby,python,javascript,c,cpp set nowrap
     augroup END
 
     " Once again define highlighting trailing whitespaces because autocmdis is
     " not working when opening files in split mode
-    highlight WhitespaceEOL ctermbg=DarkGray guibg=DarkGray
+    highlight WhitespaceEOL ctermbg=DarkGray guibg=#073642
     match WhitespaceEOL /\s\+$/
 
     set spelllang=ru_ru,en_us
