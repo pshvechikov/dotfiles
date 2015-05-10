@@ -132,6 +132,14 @@ else
         \ 'colorscheme': 'solarized_dark'
         \ }
 
+    "====================================================
+    " Unite
+    "=====================================================
+    " auto insert mode
+    let g:unite_enable_start_insert = 1
+    " unite is places in the bottom
+    let g:unite_split_rule = "botright"
+
 
     "====================================================
     " Latex settings
@@ -234,7 +242,7 @@ else
     " autocmd InsertLeave * :set relativenumber
     set scrolloff=5      " 5 строк при скролле за раз
 
-    set autochdir     " change directory to edited file
+    " set autochdir     " change directory to edited file
     set ignorecase
     set smartcase     " case searching tunning
 
