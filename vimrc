@@ -2,6 +2,7 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+
 if &diff
     " no options at all for vimdiff
 else
@@ -26,9 +27,10 @@ else
     "------------------=== Other ===----------------------
     Plugin 'tpope/vim-surround'             " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'Raimondi/delimitMate'           " Intelligent autocomplete
-    Plugin 'kien/ctrlp.vim'                 " Convenient navigation
+    " Plugin 'kien/ctrlp.vim'                 " Convenient navigation
+    Plugin 'Shougo/unite.vim'               " Convenient navigation
     Plugin 'vim-scripts/diffchanges.vim'    " difchanges in file
-
+    Plugin 'itchyny/lightline.vim'          " Minimal statusline
 
     "--------------=== Snippets support ===---------------
     Plugin 'SirVer/ultisnips'               " Track the engine.
@@ -50,20 +52,21 @@ else
     "---------------=== Languages support ===-------------
     " --- Python ---
     Plugin 'klen/python-mode'               " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
-    Plugin 'mitsuhiko/vim-jinja'            " Jinja support for vim
-    Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
+    " Plugin 'mitsuhiko/vim-jinja'            " Jinja support for vim
+    " Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
 
      call vundle#end()                      " required
-
 
 
     "====================================================
     " YouCompleteMe and UltiSnip fix settings
     "=====================================================
+
     " show completion even in comments
     let g:ycm_complete_in_comments = 1
     let g:ycm_collect_identifiers_from_comments_and_strings = 1
     let g:ycm_collect_identifiers_from_tags_files = 1
+
     " set omnifunc=syntaxcomplete#Complete
     " let g:ycm_filetype_blacklist = {
     "     \ 'tex' : 1,
@@ -73,7 +76,7 @@ else
     let g:ycm_seed_identifiers_with_syntax = 1
     " if one want to use ctags he should assure oneself that
     " >> ctags --version print Exuberant Ctags, see :help YouCompleteMe
-
+    "
 
     " make YCM compatible with UltiSnips (using supertab)
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
@@ -120,6 +123,15 @@ else
 
     " sort always by position in file, not by name
     let g:tagbar_sort = 0
+
+    "====================================================
+    " Lightline
+    "=====================================================
+
+    let g:lightline = {
+        \ 'colorscheme': 'solarized_dark'
+        \ }
+
 
     "====================================================
     " Latex settings
@@ -185,31 +197,32 @@ else
     set ruler
     set completeopt-=preview
     set gcr=a:blinkon0
-    if has("gui_running")
-     set cursorline
-    endif
     set ttyfast
 
 
     syntax on
     if has("gui_running")
-    " GUI? SET THEME AND WINDOW SIZE
-    set background=dark
-    set lines=40 columns=125
-    let g:solarized_termcolors=256
-    colorscheme solarized
+        " GUI? SET THEME AND WINDOW SIZE
+        set background=dark
+        set lines=40 columns=125
+        let g:solarized_termcolors=256
+        colorscheme solarized
 
-    if has("mac")
-     set guifont=Consolas:h16
-     set fuoptions=maxvert,maxhorz
-    else
-     set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 15
-    endif
-    else
-    "  colorscheme solarized
+        if has("mac")
+            set guifont=Consolas:h16
+            set fuoptions=maxvert,maxhorz
+        else
+            set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 15
+        endif
+        else
+            set t_Co=16
+            set background=dark
+            colorscheme solarized
     endif
     set switchbuf=useopen
 
+    " make  line with cursor  to be highlighted
+    set cursorline
 
     set enc=utf-8        " utf-8 по дефолту в файлах
     set ls=2             " всегда показываем статусбар
@@ -301,15 +314,17 @@ else
        autocmd!
        autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
        autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
-       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL ctermbg=DarkGray guibg=#073642
+       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
        autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
        autocmd FileType ruby,python,javascript,c,cpp set nowrap
     augroup END
 
-    " Once again define highlighting trailing whitespaces because autocmdis is
+    " Once again define highlighting trailing whitespaces because autocmds are
     " not working when opening files in split mode
-    highlight WhitespaceEOL ctermbg=DarkGray guibg=#073642
+    highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
     match WhitespaceEOL /\s\+$/
+
+
 
     set spelllang=ru_ru,en_us
     " get suggestions on spelling
@@ -335,6 +350,7 @@ else
 
     " FIXME: https://github.com/klen/python-mode/issues/525
     let g:pymode_rope = 0
+    let g:pymode_folding = 0
 
 
 endif

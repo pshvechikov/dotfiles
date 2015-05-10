@@ -61,13 +61,21 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# see this onw liner to test all color codes
+# for code in {0..255}; do echo -e "\e[38;05;${code}m $code: Test"; done
+
 if [ "$color_prompt" = yes ]; then
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
+    # not going to delete history of setting bash prompt for myself
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32;40m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
+    PS1='\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$\[\e[m\] \[\e[38;05;250m\]'
 fi
 unset color_prompt force_color_prompt
+trap 'echo -ne "\e[0m"' DEBUG
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in

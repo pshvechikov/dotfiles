@@ -46,7 +46,6 @@ dst=~/.vim/bundle/Vundle.vim
 test -d $dst || git clone $src $dst
 ###############################################################################
 
-
 ######################## INSTALL FONT FOR TERMINATOR ##########################
 FONT_NAME="SourceCodePro"
 URL="https://github.com/adobe-fonts/source-code-pro/archive/1.017R.tar.gz"
@@ -69,15 +68,19 @@ test -d $dst || git clone $src $dst
 
 
 ############################## INSTALL DOTFILES ###############################
-########## Variables
+# GLOBAL variables:
+#  DOTFILESDIR - directory  where are all stored all cloned files
+####################
+#
+########## local variables
 dir=$DOTFILESDIR
 olddir=${DOTFILESDIR}_old
-files="gitconfig"                 # list of all dotfiles in ~/
-files="$files vimrc"
-files="$files latexmkrc"
-files="$files inputrc"
-files="$files bashrc"
-
+# in a format - src:dst, where src - is the filename in `dotfiles` repo and
+# `dst` - full path and name of the symbolic link to `src`
+destinations="gitconfig:~/.gitconfig vimrc:~/.vimrc latexmkrc:~/.latexmkrc "
+destinations="$destinations bashrc:.bashrc inputrc:~/.inputrc dircolors:~/.dircolors"
+destinations="$destinations terminator:~/.config/terminator/config"
+destinations="$destinations ipython_config.py:~/.ipython/profile_default/ipython_config.py"
 ##########
 
 # create dotfiles_old in homedir
@@ -90,32 +93,22 @@ echo "Changing to the $dir directory"
 cd $dir
 echo "...done"
 
+
+echo "Moving any existing dotfiles  $olddir"
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
-for file in $files; do
-    echo "Moving any existing dotfiles from ~ to $olddir"
+# split by space
+for pair in $destinations; do
+    # split by colon
+    IFS=':' read -r src dst <<< $pair
+    echo "Moving $dst to $olddir"
+    # here we use `eval` because `dst` could be in the form of ~/somefilename
     # there could not be one to move
-    mv ~/.$file ~/dotfiles_old/ || true
-    echo "Creating symlink to $file in home directory."
-    ln -s $dir/$file ~/.$file
+    eval mv $dst $olddir/ || true
+    echo "Creating directory $(dirname $dst) (if not already)"
+    eval mkdir -p  $(dirname $dst)
+    echo "Creating symlink $dst -> $dir/$src."
+    eval ln -s $dir/$src $dst
 done
-
-#### Terminator section starts ####
-dstfile=~/.config/terminator/config
-file="terminator"
-mkdir -p  $(dirname $dstfile)
-mv $dstfile $olddir/$file || true
-ln -s $dir/$file $dstfile
-#### Terminator section  ends  ####
-
-
-#### Ipython config section starts ####
-dstfile=~/.ipython/profile_default/ipython_config.py
-file=ipython_config.py
-mkdir -p  $(dirname $dstfile)
-mv $dstfile $olddir/$file || true
-ln -s $dir/$file $dstfile
-#### Ipython config section ends ####
-
 ###############################################################################
 
 
