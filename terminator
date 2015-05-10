@@ -6,6 +6,7 @@
   title_hide_sizetext = True
   title_transmit_bg_color = "#d30102"
   hide_from_taskbar = True
+  always_split_with_profile = True
 [keybindings]
   toggle_zoom = <Shift><Super>Return
   group_tab = <Primary><Shift><Super>t

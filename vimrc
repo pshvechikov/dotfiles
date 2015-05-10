@@ -312,26 +312,25 @@ else
     endif
 
     " disable colorcolumn that is set up nowhere ??
-    highlight ColorColumn ctermbg=DarkGray
+    highlight ColorColumn ctermbg=0
     " delete all spaces at the end of lines
     autocmd BufWritePre * :%s/\s\+$//e
-
-
-    " highlight text on dark when exceeding 80 column
-    augroup vimrc_autocmds
-       autocmd!
-       autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=DarkGrey guibg=Black
-       autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
-       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
-       autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
-       autocmd FileType ruby,python,javascript,c,cpp set nowrap
-    augroup END
 
     " Once again define highlighting trailing whitespaces because autocmds are
     " not working when opening files in split mode
     highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
     match WhitespaceEOL /\s\+$/
 
+
+    " highlight text on dark when exceeding 80 column
+    augroup vimrc_autocmds
+       autocmd!
+       autocmd FileType ruby,python,javascript,c,cpp highlight Excess ctermbg=0 guibg=Black
+       autocmd FileType ruby,python,javascript,c,cpp match Excess /\%80v.*/
+       autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
+       autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
+       autocmd FileType ruby,python,javascript,c,cpp set nowrap
+    augroup END
 
 
     set spelllang=ru_ru,en_us
