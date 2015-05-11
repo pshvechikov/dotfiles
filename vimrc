@@ -27,8 +27,10 @@ else
     "------------------=== Other ===----------------------
     Plugin 'tpope/vim-surround'             " Parentheses, brackets, quotes, XML tags, and more
     Plugin 'Raimondi/delimitMate'           " Intelligent autocomplete
-    " Plugin 'kien/ctrlp.vim'                 " Convenient navigation
-    Plugin 'Shougo/unite.vim'               " Convenient navigation
+    Plugin 'kien/ctrlp.vim'                 " Convenient navigation
+    " think about following plugins -- too slow and eating 100cpu
+    " Plugin 'Shougo/unite.vim'               " Convenient navigation
+    " Plugin 'Shougo/vimproc.vim'             " for unite async mode
     Plugin 'vim-scripts/diffchanges.vim'    " difchanges in file
     Plugin 'itchyny/lightline.vim'          " Minimal statusline
 
@@ -132,14 +134,44 @@ else
         \ 'colorscheme': 'solarized_dark'
         \ }
 
-    "====================================================
-    " Unite
     "=====================================================
-    " auto insert mode
-    let g:unite_enable_start_insert = 1
-    " unite is places in the bottom
-    let g:unite_split_rule = "botright"
+    " Unite,  see
+    " http://www.codeography.com/2013/06/17/replacing-all-the-things-with-unite-vim.html
+    "=====================================================
+    " " auto insert mode
+    " let g:unite_enable_start_insert = 1
+    " " unite is places in the bottom
+    " let g:unite_split_rule = "botright"
+    " " act like CtrlP
+    " " nnoremap <C-p> :Unite file_rec/async:!<cr>
 
+    " " Unite
+    " let g:unite_source_history_yank_enable = 1
+
+    " " call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+    " nnoremap <leader>t :<C-u>Unite -no-split -buffer-name=files   -start-insert file_rec/async:!<cr>
+    " nnoremap <leader>f :<C-u>Unite -no-split -buffer-name=files   -start-insert file<cr>
+    " nnoremap <leader>r :<C-u>Unite -no-split -buffer-name=mru     -start-insert file_mru<cr>
+    " nnoremap <leader>o :<C-u>Unite -no-split -buffer-name=outline -start-insert outline<cr>
+    " nnoremap <leader>y :<C-u>Unite -no-split -buffer-name=yank    history/yank<cr>
+    " nnoremap <leader>e :<C-u>Unite -no-split -buffer-name=buffer  buffer<cr>
+
+    " " Custom mappings for the unite buffer
+    " autocmd FileType unite call s:unite_settings()
+
+    " function! s:unite_settings()
+    " " Play nice with supertab
+    " let b:SuperTabDisabled=1
+    " " Enable navigation with control-j and control-k in insert mode
+    " imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+    " imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+    " endfunction
+
+    " nnoremap <leader>ft :Unite file_rec/async:! -default-action=tabopen<cr>
+    " nnoremap <leader>fs :Unite file_rec/async:! -default-action=split<cr>
+    " nnoremap <leader>fv :Unite file_rec/async:! -default-action=vsplit<cr>
+    " nnoremap <leader>fc :Unite file_rec/async:!<cr>
 
     "====================================================
     " Latex settings
@@ -236,11 +268,15 @@ else
     set ls=2             " всегда показываем статусбар
     set incsearch        " инкреминтируемый поиск
     set hlsearch         " подсветка результатов поиска
-    set nu               " показывать номера строк
+    set number           " показывать номера строк
     set relativenumber   " относительная нумерация строк
     " autocmd InsertEnter * :set number
     " autocmd InsertLeave * :set relativenumber
     set scrolloff=5      " 5 строк при скролле за раз
+
+    " for purposes of copying text from terminal
+    nnoremap <F2> :set nonumber! \| set norelativenumber! <CR>
+
 
     " set autochdir     " change directory to edited file
     set ignorecase
@@ -358,6 +394,5 @@ else
     " FIXME: https://github.com/klen/python-mode/issues/525
     let g:pymode_rope = 0
     let g:pymode_folding = 0
-
 
 endif
