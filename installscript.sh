@@ -12,8 +12,8 @@
 #     This could be done in VB Settings -> Input -> Autograbbing keyboard
 #   - adjust video memory in Virtualbox settings
 #   - share any folders in virtual machine
-#   - install Vundle plugins inside Vim
-#   -
+#   - turn off lock in ubuntu settings to never lock the screen
+#   - turn off suspending host machine on battery and on in charge modes
 ############################
 
 set -e
