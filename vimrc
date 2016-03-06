@@ -33,6 +33,7 @@ else
     " Plugin 'Shougo/vimproc.vim'             " for unite async mode
     Plugin 'vim-scripts/diffchanges.vim'    " difchanges in file
     Plugin 'itchyny/lightline.vim'          " Minimal statusline
+    Plugin 'godlygeek/tabular'              " Tabularize envirnoment
 
     "--------------=== Snippets support ===---------------
     Plugin 'SirVer/ultisnips'               " Track the engine.
@@ -53,9 +54,12 @@ else
 
     "---------------=== Languages support ===-------------
     " --- Python ---
-    Plugin 'klen/python-mode'               " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
-    " Plugin 'mitsuhiko/vim-jinja'            " Jinja support for vim
-    " Plugin 'mitsuhiko/vim-python-combined'  " Combined Python 2/3 for Vim
+    Plugin 'klen/python-mode'                " Python mode (docs, refactor, lints, highlighting, run and ipdb and more)
+    Plugin 'funorpain/vim-cpplint'           " google cppline static checker, that is run by pressing F7
+    " Plugin 'mitsuhiko/vim-jinja'           " Jinja support for vim
+    " Plugin 'mitsuhiko/vim-python-combined' " Combined Python 2/3 for Vim
+
+    Plugin 'vim-scripts/Vim-R-plugin'        " R language  in vim
 
      call vundle#end()                      " required
 
@@ -83,6 +87,11 @@ else
     " make YCM compatible with UltiSnips (using supertab)
     let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
     let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+    " let g:ycm_server_use_vim_stdout = 1
+    " let g:ycm_server_log_level = 'debug'
+    " let g:ycm_server_keep_logfiles = 1
+
+
 
 
     " hack to workaround with YCM
@@ -106,7 +115,9 @@ else
     au FileType python let b:delimitMate_nesting_quotes = ['"']
     " Use this option to tell delimitMate which characters should be considered
     " matching pairs. Read |delimitMateAutoClose| for details.
-    let delimitMate_matchpairs = "(:),[:],{:},<:>"
+    let delimitMate_matchpairs = "(:),[:],{:}"
+    " dirty hack against langmap which destroys square brackets
+    set langmap=[[,]]
 
 
     "====================================================
@@ -205,6 +216,7 @@ else
     " set imsearch=0
     " highlight lCursor guifg=NONE guibg=Cyan
 
+
     augroup langmap_tex
        autocmd!
        autocmd FileType tex set langmap=йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ъ],фa,ыs,вd,аf,пg,рh,оj,лk,дl,э'
@@ -223,7 +235,7 @@ else
     "=====================================================
 
     " do not close files when type :e filename
-    set hidden
+    " set hidden
     filetype on
     filetype plugin on
     filetype plugin indent on
@@ -277,6 +289,12 @@ else
     " for purposes of copying text from terminal
     nnoremap <F2> :set nonumber! \| set norelativenumber! <CR>
 
+    nnoremap <F3> :mksession! ~/vim_session <cr> " Quick write session with F3
+    nnoremap <F4> :source ~/vim_session <cr>     " And load session with F4
+    set ssop-=options    " do not store global and local values in a session
+    set ssop-=folds      " do not store folds
+    set sessionoptions+=buffers " do store unsaved buffer content
+
 
     " set autochdir     " change directory to edited file
     set ignorecase
@@ -288,8 +306,8 @@ else
     set guioptions-=r   "  скроллбары
 
     " tab tunning
-    set tabstop=4
-    set shiftwidth=4
+    set tabstop=2
+    set shiftwidth=2
     set expandtab
     set showmatch     " set show matching parenthesis
     set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
@@ -302,6 +320,9 @@ else
     set title                " change the terminal's title
     set visualbell           " don't beep
     set noerrorbells         " don't beep
+
+    set autoread             " auto refresh unchanged files if they are
+                             " modified on disk
 
     " set split methods
     set splitbelow
@@ -348,15 +369,17 @@ else
     endif
 
     " disable colorcolumn that is set up nowhere ??
-    highlight ColorColumn ctermbg=0
-    " delete all spaces at the end of lines
-    autocmd BufWritePre * :%s/\s\+$//e
+    " highlight ColorColumn ctermbg=0
 
     " Once again define highlighting trailing whitespaces because autocmds are
     " not working when opening files in split mode
     highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
     match WhitespaceEOL /\s\+$/
+    " delete all spaces at the end of lines
+    autocmd BufWritePre * :%s/\s\+$//e
 
+    set colorcolumn=80
+    highlight ColorColumn cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
 
     " highlight text on dark when exceeding 80 column
     augroup vimrc_autocmds
@@ -366,6 +389,8 @@ else
        autocmd FileType ruby,python,javascript,c,cpp highlight WhitespaceEOL  cterm=bold ctermfg=6 ctermbg=0 guibg=#073642
        autocmd FileType ruby,python,javascript,c,cpp match WhitespaceEOL /\s\+$/
        autocmd FileType ruby,python,javascript,c,cpp set nowrap
+       autocmd FileType cpp set tabstop=2
+       autocmd FileType cpp set shiftwidth=2
     augroup END
 
 
